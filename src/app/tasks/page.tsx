@@ -34,12 +34,6 @@ const tasks: Task[] = [
   },
 ];
 
-  const handleDataReceived = (data: typeof tasks) => {
-//    setReceivedData(data)
-    console.log("Received data:", data) // For debugging
-  }
-
-
   return (
     <>
       <div className="md:hidden">

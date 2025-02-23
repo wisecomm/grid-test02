@@ -1,32 +1,44 @@
-import { promises as fs } from "fs"
-import path from "path"
-import { Metadata } from "next"
+"use client";
+
 import Image from "next/image"
-import { z } from "zod"
 
 import { columns } from "./components/columns"
 import { DataTable } from "./components/data-table"
-import { taskSchema } from "./data/schema"
+import { Task } from "./data/schema"
 import { PageDtToolbarPropsToolbar } from "./page-dt-toolbar"
+import React from "react"
 
-export const metadata: Metadata = {
-  title: "Tasks",
-  description: "A task and issue tracker build using Tanstack Table.",
-}
+export default function TaskPage() {
 
-// Simulate a database read for tasks.
-async function getTasks() {
-  const data = await fs.readFile(
-    path.join(process.cwd(), "src/app/tasks/data/tasks.json")
-  )
+const tasks: Task[] = [
+  {
+    "id": "TASK-8782",
+    "title": "You can't compress the program without quantifying the open-source SSD pixel!",
+    "status": "in progress",
+    "label": "documentation",
+    "priority": "medium"
+  },
+  {
+    "id": "TASK-7878",
+    "title": "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
+    "status": "backlog",
+    "label": "documentation",
+    "priority": "medium"
+  },
+  {
+    "id": "TASK-7839",
+    "title": "We need to bypass the neural TCP card!",
+    "status": "todo",
+    "label": "bug",
+    "priority": "high"
+  },
+];
 
-  const tasks = JSON.parse(data.toString())
+  const handleDataReceived = (data: typeof tasks) => {
+//    setReceivedData(data)
+    console.log("Received data:", data) // For debugging
+  }
 
-  return z.array(taskSchema).parse(tasks)
-}
-
-export default async function TaskPage() {
-  const tasks = await getTasks()
 
   return (
     <>
@@ -50,7 +62,9 @@ export default async function TaskPage() {
         <div className="flex items-center justify-between space-y-2">
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
         </div>
-        <DataTable DataTableToolbar={PageDtToolbarPropsToolbar} data={tasks} columns={columns} />
+        <DataTable DataTableToolbar={PageDtToolbarPropsToolbar} data={tasks} columns={columns} 
+         onDataReceived={handleDataReceived}
+         />
       </div>
     </>
   )

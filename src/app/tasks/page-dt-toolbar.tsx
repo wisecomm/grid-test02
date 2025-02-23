@@ -1,19 +1,19 @@
 "use client";
 
 import { Table } from "@tanstack/react-table";
-import { DataTableViewOptions } from "@/components/custom/datatable/data-table-view-options";
+import { DataTableViewOptions } from "@/components/custom/data-table/data-table-view-options";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { LabelDatePicker } from "@/components/custom/datepicker/LabelDatePicker";
 import { useState } from "react";
 
-interface DataTableToolbarProps<TData> {
+interface PageDtToolbarProps<TData> {
   table: Table<TData>;
 }
 
-export function DataTableToolbar<TData>({
+export function PageDtToolbarPropsToolbar<TData>({
   table,
-}: DataTableToolbarProps<TData>) {
+}: PageDtToolbarProps<TData>) {
 
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);

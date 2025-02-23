@@ -63,7 +63,6 @@ const tasks: Task[] = [
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
         </div>
         <DataTable DataTableToolbar={PageDtToolbarPropsToolbar} data={tasks} columns={columns} 
-         onDataReceived={handleDataReceived}
          />
       </div>
     </>

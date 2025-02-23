@@ -1,38 +1,37 @@
 "use client";
 
+import React, { useRef, useState } from "react"
 import Image from "next/image"
 
 import { columns } from "./components/columns"
-import { DataTable } from "./components/data-table"
+import { DataTable, DataTableHandle } from "./components/data-table"
 import { Task } from "./data/schema"
 import { PageDtToolbarPropsToolbar } from "./page-dt-toolbar"
-import React from "react"
+import { Button } from "@/components/ui/button";
 
 export default function TaskPage() {
+  const tableRef = useRef<DataTableHandle>(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-const tasks: Task[] = [
-  {
-    "id": "TASK-8782",
-    "title": "You can't compress the program without quantifying the open-source SSD pixel!",
-    "status": "in progress",
-    "label": "documentation",
-    "priority": "medium"
-  },
-  {
-    "id": "TASK-7878",
-    "title": "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
-    "status": "backlog",
-    "label": "documentation",
-    "priority": "medium"
-  },
-  {
-    "id": "TASK-7839",
-    "title": "We need to bypass the neural TCP card!",
-    "status": "todo",
-    "label": "bug",
-    "priority": "high"
-  },
-];
+  const handleSearch = async () => {
+    console.log('22222:');
+
+    if (!tableRef.current) return;
+    
+    const tableState = tableRef.current.getTableState();
+    try {
+      const queryParams = new URLSearchParams();
+      if (tableState.pagination) {
+        queryParams.set('page', tableState.pagination.pageIndex.toString());
+        queryParams.set('size', tableState.pagination.pageSize.toString());
+      }
+      console.log('tableState pageIndex :' + tableState.pagination.pageIndex.toString());
+      console.log('tableState pageSize :' + tableState.pagination.pageSize.toString());
+
+    } catch (error) {
+      console.error('Error fetching tasks1111:', error);
+    }
+  };
 
   return (
     <>
@@ -56,8 +55,13 @@ const tasks: Task[] = [
         <div className="flex items-center justify-between space-y-2">
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
         </div>
-        <DataTable DataTableToolbar={PageDtToolbarPropsToolbar} data={tasks} columns={columns} 
-         />
+        <Button onClick={handleSearch}>검색</Button>
+        <DataTable 
+          ref={tableRef}
+          DataTableToolbar={PageDtToolbarPropsToolbar} 
+          data={tasks} 
+          columns={columns} 
+        />
       </div>
     </>
   )

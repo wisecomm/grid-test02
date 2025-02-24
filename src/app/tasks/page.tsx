@@ -8,16 +8,17 @@ import { DataTable, DataTableHandle } from "./components/data-table";
 import { Task } from "./data/schema";
 import { PageDtToolbarPropsToolbar } from "./page-dt-toolbar";
 import { Button } from "@/components/ui/button";
-import { fetchData } from "./data/testdata";
+import { fetchData, fetchData2 } from "./data/testdata";
 
 export default function TaskPage() {
   const tableRef = useRef<DataTableHandle>(null);
   const [tableData, setTableData] = useState<Task[]>([]);
+  const [testPage, setTestPage] = useState<number>(1);
 
   useEffect(() => {
     async function loadData() {
-      const data = await fetchData();
-      setTableData(data);
+      //      const data = await fetchData();
+      //      setTableData(data);
     }
     loadData();
   }, []);
@@ -25,6 +26,16 @@ export default function TaskPage() {
   const handleSearch = async () => {
     console.log("22222:");
 
+    if (testPage == 1) {
+      const data = await fetchData2();
+      setTableData(data);
+
+      setTestPage(2);
+    } else {
+      const data = await fetchData();
+      setTableData(data);
+      setTestPage(1);
+    }
     if (!tableRef.current) return;
 
     const tableState = tableRef.current.getTableState();

@@ -40,6 +40,14 @@ export default function TaskPage() {
       console.log(
         "tableState pageSize :" + tableState.pagination.pageSize.toString()
       );
+
+      const taskArray: Task[] = tableState.selectRows.rows.map(
+        (row) => row.original
+      );
+      console.log("Selected Rows:");
+      taskArray.forEach((task, index) => {
+        console.log(`Row ${index + 1}: ID=${task.id}, Title=${task.title}`);
+      });
     } catch (error) {
       console.error("Error fetching tasks1111:", error);
     }

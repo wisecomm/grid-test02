@@ -784,6 +784,22 @@ export async function fetchData(): Promise<Task[]> {
       label: "bug",
       priority: "low",
     },
+    {
+      id: "TASK-520798",
+      title:
+        "The SMS interface is down, copy the bluetooth bus so we can quantify the VGA card!",
+      status: "in progress",
+      label: "bug",
+      priority: "low",
+    },
+    {
+      id: "TASK-520799",
+      title:
+        "The SMS interface is down, copy the bluetooth bus so we can quantify the VGA card!",
+      status: "in progress",
+      label: "bug",
+      priority: "low",
+    },
   ];
 }
 

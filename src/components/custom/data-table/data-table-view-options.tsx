@@ -12,7 +12,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 
 interface DataTableViewOptionsProps<TData> {
@@ -30,12 +30,38 @@ export function DataTableViewOptions<TData>({
     setSelectedFilterId(value);
   };
 
+  // 컴포넌트 마운트 시 첫 번째 필터 컬럼을 기본값으로 설정
+  useEffect(() => {
+    const firstFilterableColumn = table
+      .getAllColumns()
+      .find(
+        (column) =>
+          typeof column.accessorFn !== "undefined" && column.getCanHide()
+      );
+
+    if (firstFilterableColumn) {
+      setSelectedFilterId(firstFilterableColumn.id);
+    }
+  }, [table]);
+
   // 검색 처리
   const [searchValue, setSearchValue] = useState<string>("");
+
+  // 검색어 처리 함수 수정
   const handleSearchValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setSearchValue(event.target.value);
+    const value = event.target.value;
+
+    setSearchValue(value);
+
+    // 실시간 테이블 필터링 적용
+    if (selectedFilterId) {
+      const column = table.getColumn(selectedFilterId);
+      if (column) {
+        column.setFilterValue(value);
+      }
+    }
   };
 
   /** 검색 */
